@@ -1,0 +1,20 @@
+
+
+---------------------FACTURA---------------------
+
+Nombre del cliete:  ca
+Dirección del cliente:  ca
+
+Precio neto  .......................  $41050
+Precio IVA  ........................  $7799
+Precio total  ......................  $48849
+Calorias totales  ..................  163 Calorias
+
+---------------Productos Comprados---------------
+
+Producto            	 Precio   	Calorias  
+_________________________________________________
+
+Combo corral        	$22050    	126
+Corral              	$14000    	14
+Agua cristal sin gas	$5000     	23

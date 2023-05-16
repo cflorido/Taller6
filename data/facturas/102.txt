@@ -1,0 +1,17 @@
+
+
+---------------------FACTURA---------------------
+
+Nombre del cliete: ca
+Dirección del cliente: ca
+
+Precio neto: $0
+Precio IVA: $0
+Precio total: $0
+Calorias totales: 0Calorias
+
+---------------Productos Comprados---------------
+
+Producto            	Precio    	Calorias
+_________________________________________________
+
