@@ -52,7 +52,7 @@ public class Pedido{
 			
 		}
 
-	private int getPrecioNetoPedido()
+	public int getPrecioNetoPedido()
 	{
 		int precio = 0;
 		for (Producto elementos: itemsPedido)
@@ -61,7 +61,7 @@ public class Pedido{
 		}
 		return precio;
 	}
-	private int getCalorias()
+	public int getCalorias()
 	{
 		int cal = 0;
 		for (Producto elementos: itemsPedido)
@@ -70,17 +70,17 @@ public class Pedido{
 		}
 		return cal;
 	}	
-	private int getPrecioTotalPedido()
+	public int getPrecioTotalPedido()
 	{
 		return getPrecioNetoPedido() + getPrecioIVAPedido();
 	}
 	
-	private int getPrecioIVAPedido()
+	public int getPrecioIVAPedido()
 	{
 		return (int)(getPrecioNetoPedido()*0.19);
 	}
 	
-	private String generarTextoFactura() {
+	public String generarTextoFactura() {
 		String x = "\n\n---------------------FACTURA---------------------\n\n";
 		x += "Nombre del cliete:  " + nombreCliente + "\n";
 		x += "Dirección del cliente:  "   +direccionCliente + "\n\n";
