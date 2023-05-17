@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import Modelo.Pedido;
 import Modelo.ProductoMenu;
 import Modelo.Combo;
@@ -74,7 +76,7 @@ public class Restaurante {
 	public ArrayList<Combo> getcombos() {
 		return combos;
 	}	
-	public void cargarInformacionRestaurante(String archivoIngredientes, String archivoMenu, String archivoCombos, String archivobebidas)throws FileNotFoundException, IOException
+	public void cargarInformacionRestaurante(String archivoIngredientes, String archivoMenu, String archivoCombos, String archivobebidas)throws FileNotFoundException, IOException, IngredienteRepetidoException, ProductoRepetidoException
 	{
 
 		cargarIngrediente(archivoIngredientes);
@@ -83,24 +85,34 @@ public class Restaurante {
 		cargarBebidas(archivobebidas);
 	}
 
-	private void cargarIngrediente(String archivoIngrediente) {
+	private void cargarIngrediente(String archivoIngrediente) throws IngredienteRepetidoException {
+		try (BufferedReader br = new BufferedReader(new FileReader(archivoIngrediente))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] parts = line.split(";");
+	
+				String nombreIngrediente = parts[0];
+				int cantidad = Integer.parseInt(parts[1]);
+				int precio = Integer.parseInt(parts[2]);
+	
+				Ingrediente ingredientee = new Ingrediente(nombreIngrediente, cantidad, precio);
+				
 
-		
-        try (BufferedReader br = new BufferedReader(new FileReader(archivoIngrediente))) {
-        	String line;
-            while ((line = br.readLine()) != null) {
-            	
-                String[] parts = line.split(";");
- 
-                int integerNumber = Integer.parseInt(parts[1]);
-    			Ingrediente itemingrediente = new Ingrediente(parts[0],integerNumber, Integer.parseInt(parts[2]));
-    			ingredientes.add(itemingrediente);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
+
+				for (Ingrediente x : ingredientes){
+					String comparar = x.getNombre();
+					if (comparar.equals(ingredientee.getNombre())){
+						throw new IngredienteRepetidoException(nombreIngrediente);
+					}
+				}
+	
+				ingredientes.add(ingredientee);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
+	
 
 
 
@@ -131,7 +143,7 @@ public class Restaurante {
 
 
 
-	private void cargarMenu(String archivoMenu) {
+	private void cargarMenu(String archivoMenu) throws ProductoRepetidoException {
 		
 
         try (BufferedReader br = new BufferedReader(new FileReader(archivoMenu))) {
@@ -141,6 +153,16 @@ public class Restaurante {
                 int integerNumber = Integer.parseInt(parts[1]);
     			ProductoMenu menu = new ProductoMenu(parts[0], integerNumber, Integer.parseInt(parts[2]));
     			menuBase.add(menu);
+			
+				for (Entry<String, ProductoMenu> entry : ProductosDelMenu.entrySet()) {
+				
+					ProductoMenu menucomp = entry.getValue();
+				
+					if (parts[0].equals(menucomp.getNombre())){
+						throw new ProductoRepetidoException(parts[0]);
+					}
+				}
+
 				ProductosDelMenu.put(parts[0], menu);
             }
         } catch (IOException e) {

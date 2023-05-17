@@ -29,10 +29,13 @@ import java.util.Scanner;
 import Modelo.Bebida;
 import Modelo.Combo;
 import Modelo.Ingrediente;
+import Modelo.IngredienteRepetidoException;
 import Modelo.Pedido;
+import Modelo.PrecioException;
 import Modelo.Producto;
 import Modelo.ProductoAjustado;
 import Modelo.ProductoMenu;
+import Modelo.ProductoRepetidoException;
 import Modelo.Restaurante;
 
 
@@ -49,7 +52,20 @@ public class Aplicacion
 	{
 		this.restaurante = new Restaurante();
 		System.out.println("Cargando restaurante...");
-		this.restaurante.cargarInformacionRestaurante("./data/ingredientes.txt","./data/menu.txt", "./data/combos.txt", "./data/Bebidas.txt");
+
+
+		try {
+            
+            Restaurante restaurante = new Restaurante();
+			try {
+				this.restaurante.cargarInformacionRestaurante("./data/ingredientes.txt","./data/menu.txt", "./data/combos.txt", "./data/Bebidas.txt");
+			} catch (ProductoRepetidoException e) {
+				System.out.println("Mensaje de error: " + e.getMessage());
+			}
+
+        } catch (IngredienteRepetidoException e) {
+           System.out.println("Mensaje de error: " + e.getMessage());
+        } 
 
 		boolean continuar = true;
 		while (continuar)
@@ -181,7 +197,11 @@ public class Aplicacion
 			int opcionSeleccionada2 = Integer.parseInt(input("\nPor favor, ingrese la opción que es de su interés: "));			
 			Combo comboo = restaurante.getcombos().get(opcionSeleccionada2-1);
 			
-			pedidoEnCurso.agregarProducto(comboo);
+			try {
+				pedidoEnCurso.agregarProducto(comboo);
+			} catch (PrecioException e) {
+				System.out.println("Mensaje de error: " + e.getMessage());
+			}
 			System.out.println("\n!Se agrego el combo exitosamente¡");
 		}
 
@@ -207,13 +227,21 @@ public class Aplicacion
 
 			System.out.println("\nAgregando producto...");
 				
-			pedidoEnCurso.agregarProducto(this.restaurante.getMenuBase().get(numeroo-1));
+			try {
+				pedidoEnCurso.agregarProducto(this.restaurante.getMenuBase().get(numeroo-1));
+			} catch (PrecioException e) {
+				System.out.println("Mensaje de error: " + e.getMessage());
+			}
 			System.out.println("\n¡El ingrediente ha sido exitosamente agregado!");	
 			}else{			
 		
 			
 			ProductoAjustado ajustado = new ProductoAjustado(this.restaurante.getMenuBase().get(numeroo-1));
-			pedidoEnCurso.agregarProducto(ajustado);
+			try {
+				pedidoEnCurso.agregarProducto(ajustado);
+			} catch (PrecioException e) {
+				System.out.println("Mensaje de error: " + e.getMessage());
+			}
 
 			int x = 0;				
 			while (x == 0){
@@ -293,7 +321,11 @@ public class Aplicacion
 
 		int x = Integer.parseInt(input("\nPor favor, ingrese la opción que es de su interés: "));
 		Bebida seleccionada = restaurante.getbebidas().get(x-1);
-		restaurante.getPedidoEnCurso().agregarProducto(seleccionada);
+		try {
+			restaurante.getPedidoEnCurso().agregarProducto(seleccionada);
+		} catch (PrecioException e) {
+			System.out.println("Mensaje de error: " + e.getMessage());
+		}
 		System.out.println("\n!Se agregado la bebida correctamente¡");
 
 

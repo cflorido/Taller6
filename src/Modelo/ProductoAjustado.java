@@ -38,19 +38,15 @@ public class ProductoAjustado implements Producto
 		int precioproducto = base.getPrecio();
 		int conta = 0;
 		for (Ingrediente agregadoss : agregados){
-
 			conta += agregadoss.getCostoAdicional();
 		}
-		
 		return precioproducto+conta;
 	}
 	
 	public void agregarIngrediente(Ingrediente agregado)
 	{
 		agregados.add(agregado);
-		
 
-		
 	}
 	
 	public void eliminarIngrediente(int eliminado, Ingrediente ingreeli)

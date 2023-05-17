@@ -43,9 +43,13 @@ public class Pedido{
 			return idPedido;
 		}
 	
-	public void agregarProducto(Producto nuevoItem)
+	public void agregarProducto(Producto nuevoItem) throws PrecioException
 		{
+			if (nuevoItem.getPrecio() > 150000) {
+				throw new PrecioException(nuevoItem.getPrecio());
+			}
 			this.itemsPedido.add(nuevoItem);
+			
 		}
 
 	private int getPrecioNetoPedido()
